@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title><%= title %> | Scheduler</title>
+
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="container navbar">
+            <a href="/" class="logo">
+                <span>Scheduler</span>
+            </a>
+
+            <div class="nav-links">
+                <% if (user) { %>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/tasks">Tasks</a>
+                    <a href="/schedules/generate">AI Planner</a>
+
+                    <form action="/logout" method="POST">
+                        <button type="submit" class="logout-button">
+                            Log Out
+                        </button>
+                    </form>
+                <% } else { %>
+                    <a href="/signin">Sign In</a>
+
+                    <a href="/signup" class="button">
+                        Get Started
+                    </a>
+                <% } %>
+            </div>
+        </nav>
+    </header>
+
+    <main>

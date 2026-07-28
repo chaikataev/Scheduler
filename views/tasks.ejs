@@ -1,0 +1,184 @@
+<%- include("partials/header") %>
+
+<section class="tasks-section">
+    <div class="container">
+        <div class="page-heading">
+            <div>
+                <span class="eyebrow">Task manager</span>
+                <h1>Your tasks</h1>
+                <p>Add tasks, deadlines, priorities, and estimated time.</p>
+            </div>
+        </div>
+
+        <div class="tasks-layout">
+            <aside class="task-form-card">
+                <h2>Add a task</h2>
+
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form action="/tasks" method="POST" class="task-form">
+                    <label>
+                        Task title
+
+                        <input
+                            type="text"
+                            name="title"
+                            value="<%= formData.title || '' %>"
+                            maxlength="150"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Description
+
+                        <textarea
+                            name="description"
+                            rows="4"
+                            maxlength="1000"
+                        ><%= formData.description || '' %></textarea>
+                    </label>
+
+                    <label>
+                        Due date
+
+                        <input
+                            type="datetime-local"
+                            name="dueDate"
+                            value="<%= formData.dueDate || '' %>"
+                        >
+                    </label>
+
+                    <label>
+                        Priority
+
+                        <select name="priority">
+                            <option
+                                value="low"
+                                <%= formData.priority === "low" ? "selected" : "" %>
+                            >
+                                Low
+                            </option>
+
+                            <option
+                                value="medium"
+                                <%= !formData.priority || formData.priority === "medium" ? "selected" : "" %>
+                            >
+                                Medium
+                            </option>
+
+                            <option
+                                value="high"
+                                <%= formData.priority === "high" ? "selected" : "" %>
+                            >
+                                High
+                            </option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Estimated time in minutes
+
+                        <input
+                            type="number"
+                            name="estimatedMinutes"
+                            value="<%= formData.estimatedMinutes || 30 %>"
+                            min="5"
+                            max="1440"
+                            step="5"
+                            required
+                        >
+                    </label>
+
+                    <button type="submit" class="button full-button">
+                        Add Task
+                    </button>
+                </form>
+            </aside>
+
+            <div class="task-list">
+                <% if (tasks.length === 0) { %>
+                    <div class="empty-task-state">
+                        <h2>No tasks yet</h2>
+                        <p>Add your first task using the form.</p>
+                    </div>
+                <% } %>
+
+                <% tasks.forEach((task) => { %>
+                    <article class="task-card <%= task.status === 'completed' ? 'task-completed' : '' %>">
+                        <div class="task-card-top">
+                            <div>
+                                <span class="priority-badge priority-<%= task.priority %>">
+                                    <%= task.priority %>
+                                </span>
+
+                                <h2><%= task.title %></h2>
+                            </div>
+
+                            <span class="status-badge">
+                                <%= task.status %>
+                            </span>
+                        </div>
+
+                        <% if (task.description) { %>
+                            <p class="task-description">
+                                <%= task.description %>
+                            </p>
+                        <% } %>
+
+                        <div class="task-meta">
+                            <span>
+                                Estimated:
+                                <strong><%= task.estimatedMinutes %> minutes</strong>
+                            </span>
+
+                            <span>
+                                Due:
+                                <strong>
+                                    <%= task.dueDate
+                                        ? new Date(task.dueDate).toLocaleString("en-US")
+                                        : "No deadline"
+                                    %>
+                                </strong>
+                            </span>
+                        </div>
+
+                        <div class="task-actions">
+                            <form action="/tasks/<%= task._id %>/toggle" method="POST">
+                                <button type="submit" class="button secondary-button small-button">
+                                    <%= task.status === "completed"
+                                        ? "Mark Pending"
+                                        : "Mark Complete"
+                                    %>
+                                </button>
+                            </form>
+
+                            <a
+                                href="/tasks/<%= task._id %>/edit"
+                                class="button secondary-button small-button"
+                            >
+                                Edit
+                            </a>
+
+                            <form
+                                action="/tasks/<%= task._id %>/delete"
+                                method="POST"
+                                onsubmit="return confirm('Delete this task?');"
+                            >
+                                <button type="submit" class="delete-button">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include("partials/footer") %>

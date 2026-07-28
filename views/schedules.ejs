@@ -1,0 +1,83 @@
+<%- include("partials/header") %>
+
+<section class="saved-schedules-section">
+    <div class="container">
+        <div class="page-heading">
+            <div>
+                <span class="eyebrow">Schedule history</span>
+                <h1>Saved schedules</h1>
+
+                <p>
+                    Review or delete schedules you generated previously.
+                </p>
+            </div>
+
+            <a href="/schedules/generate" class="button">
+                Generate Schedule
+            </a>
+        </div>
+
+        <% if (schedules.length === 0) { %>
+            <div class="empty-task-state">
+                <h2>No saved schedules</h2>
+
+                <p>
+                    Generate your first AI schedule to see it here.
+                </p>
+
+                <a href="/schedules/generate" class="button">
+                    Open AI Planner
+                </a>
+            </div>
+        <% } else { %>
+            <div class="saved-schedule-grid">
+                <% schedules.forEach((schedule) => { %>
+                    <article class="saved-schedule-card">
+                        <div class="saved-schedule-top">
+                            <span class="ai-symbol">✦</span>
+
+                            <span class="saved-schedule-date">
+                                <%= new Date(schedule.createdAt).toLocaleDateString(
+                                    "en-US",
+                                    {
+                                        month: "short",
+                                        day: "numeric",
+                                        year: "numeric"
+                                    }
+                                ) %>
+                            </span>
+                        </div>
+
+                        <h2><%= schedule.title %></h2>
+
+                        <p class="saved-schedule-preview">
+                            <%= schedule.scheduleContent.slice(0, 180) %>
+                            <%= schedule.scheduleContent.length > 180 ? "..." : "" %>
+                        </p>
+
+                        <div class="saved-schedule-actions">
+                            <a
+                                href="/schedules/<%= schedule._id %>"
+                                class="button secondary-button small-button"
+                            >
+                                View
+                            </a>
+
+                            <form
+                                action="/schedules/<%= schedule._id %>/delete"
+                                method="POST"
+                                onsubmit="return confirm('Delete this schedule?');"
+                            >
+                                <button type="submit" class="delete-button">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </article>
+                <% }) %>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<%- include("partials/footer") %>

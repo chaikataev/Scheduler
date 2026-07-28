@@ -1,0 +1,82 @@
+<%- include("partials/header") %>
+
+<section class="auth-section">
+    <div class="auth-card">
+        <span class="eyebrow">Create account</span>
+
+        <h1>Start using Scheduler.</h1>
+
+        <p class="auth-description">
+            Create an account to save tasks and generate schedules.
+        </p>
+
+        <% if (error) { %>
+            <div class="alert alert-error">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/signup" method="POST" class="auth-form">
+            <label>
+                Username
+
+                <input
+                    type="text"
+                    name="username"
+                    value="<%= formData.username || '' %>"
+                    minlength="2"
+                    maxlength="50"
+                    autocomplete="username"
+                    required
+                >
+            </label>
+
+            <label>
+                Email
+
+                <input
+                    type="email"
+                    name="email"
+                    value="<%= formData.email || '' %>"
+                    autocomplete="email"
+                    required
+                >
+            </label>
+
+            <label>
+                Password
+
+                <input
+                    type="password"
+                    name="password"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+            </label>
+
+            <label>
+                Confirm password
+
+                <input
+                    type="password"
+                    name="confirmPassword"
+                    minlength="8"
+                    autocomplete="new-password"
+                    required
+                >
+            </label>
+
+            <button type="submit" class="button full-button">
+                Create Account
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account?
+            <a href="/signin">Sign in</a>
+        </p>
+    </div>
+</section>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,152 @@
+<%- include("partials/header") %>
+
+<section class="planner-section">
+    <div class="container">
+        <div class="page-heading">
+            <div>
+                <span class="eyebrow">AI Planner</span>
+
+                <h1>Generate your schedule</h1>
+
+                <p>
+                    Tell Scheduler when you are available and Gemini will
+                    organize your pending tasks.
+                </p>
+            </div>
+
+            <a href="/schedules" class="button secondary-button">
+                Saved Schedules
+            </a>
+        </div>
+
+        <div class="planner-layout">
+            <div class="planner-form-card">
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form
+                    action="/schedules/generate"
+                    method="POST"
+                    class="planner-form"
+                >
+                    <label>
+                        Schedule title
+
+                        <input
+                            type="text"
+                            name="title"
+                            value="<%= formData.title || '' %>"
+                            maxlength="150"
+                            placeholder="My Weekly Schedule"
+                        >
+                    </label>
+
+                    <label>
+                        Your availability
+
+                        <textarea
+                            name="availability"
+                            rows="8"
+                            maxlength="2000"
+                            placeholder="Example:
+Monday: 6:00 PM to 9:00 PM
+Tuesday: 4:00 PM to 7:00 PM
+Wednesday: unavailable
+Thursday: 5:00 PM to 9:00 PM
+Sunday: 10:00 AM to 2:00 PM"
+                            required
+                        ><%= formData.availability || '' %></textarea>
+                    </label>
+
+                    <label>
+                        Preferences
+
+                        <textarea
+                            name="preferences"
+                            rows="5"
+                            maxlength="2000"
+                            placeholder="Example: Include a 15-minute break after every hour. Avoid scheduling difficult tasks late at night."
+                        ><%= formData.preferences || '' %></textarea>
+                    </label>
+
+                    <button type="submit" class="button full-button">
+                        Generate Schedule
+                    </button>
+                </form>
+            </div>
+
+            <aside class="planner-task-panel">
+                <div class="planner-task-heading">
+                    <div>
+                        <span class="eyebrow">Included tasks</span>
+                        <h2>Pending tasks</h2>
+                    </div>
+
+                    <span class="task-count">
+                        <%= tasks.length %>
+                    </span>
+                </div>
+
+                <% if (tasks.length === 0) { %>
+                    <div class="planner-empty-state">
+                        <h3>No pending tasks</h3>
+
+                        <p>
+                            Add at least one task before generating a schedule.
+                        </p>
+
+                        <a href="/tasks" class="button">
+                            Add a Task
+                        </a>
+                    </div>
+                <% } else { %>
+                    <div class="planner-task-list">
+                        <% tasks.forEach((task) => { %>
+                            <article class="planner-task">
+                                <div class="planner-task-top">
+                                    <span class="priority-badge priority-<%= task.priority %>">
+                                        <%= task.priority %>
+                                    </span>
+
+                                    <span class="planner-task-time">
+                                        <%= task.estimatedMinutes %> min
+                                    </span>
+                                </div>
+
+                                <h3><%= task.title %></h3>
+
+                                <% if (task.description) { %>
+                                    <p><%= task.description %></p>
+                                <% } %>
+
+                                <span class="planner-task-due">
+                                    Due:
+                                    <strong>
+                                        <%= task.dueDate
+                                            ? new Date(task.dueDate).toLocaleString(
+                                                "en-US",
+                                                {
+                                                    month: "short",
+                                                    day: "numeric",
+                                                    year: "numeric",
+                                                    hour: "numeric",
+                                                    minute: "2-digit"
+                                                }
+                                              )
+                                            : "No deadline"
+                                        %>
+                                    </strong>
+                                </span>
+                            </article>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<%- include("partials/footer") %>

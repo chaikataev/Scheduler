@@ -1,0 +1,128 @@
+<%- include("partials/header") %>
+
+<section class="dashboard-section">
+    <div class="container">
+        <div class="dashboard-heading">
+            <div>
+                <span class="eyebrow">Dashboard</span>
+
+                <h1>Hello, <%= user.username %>.</h1>
+
+                <p>
+                    Manage your tasks and create a personalized schedule.
+                </p>
+            </div>
+
+            <a href="/tasks" class="button">
+                Add a Task
+            </a>
+        </div>
+
+        <div class="dashboard-grid">
+            <article class="dashboard-card">
+                <span class="dashboard-card-label">
+                    Upcoming
+                </span>
+
+                <strong class="dashboard-number">
+                    <%= pendingCount %>
+                </strong>
+
+                <p>
+                    Pending tasks waiting to be completed.
+                </p>
+            </article>
+
+            <article class="dashboard-card">
+                <span class="dashboard-card-label">
+                    Completed
+                </span>
+
+                <strong class="dashboard-number">
+                    <%= completedCount %>
+                </strong>
+
+                <p>
+                    Tasks you have already completed.
+                </p>
+            </article>
+
+            <article class="dashboard-card">
+                <span class="dashboard-card-label">
+                    AI schedule
+                </span>
+
+                <h2>Build your plan</h2>
+
+                <p>
+                    Let Gemini organize your pending tasks into a schedule.
+                </p>
+
+                <a href="/schedules/generate" class="text-link">
+                    Open AI Planner →
+                </a>
+            </article>
+        </div>
+
+        <section class="upcoming-section">
+            <div class="section-title-row">
+                <div>
+                    <span class="eyebrow">Next up</span>
+                    <h2>Upcoming tasks</h2>
+                </div>
+
+                <a href="/tasks" class="text-link">
+                    View all tasks →
+                </a>
+            </div>
+
+            <% if (upcomingTasks.length === 0) { %>
+                <div class="empty-task-state">
+                    <h2>No pending tasks</h2>
+                    <p>
+                        Add a task to begin building your schedule.
+                    </p>
+                </div>
+            <% } else { %>
+                <div class="upcoming-task-grid">
+                    <% upcomingTasks.forEach((task) => { %>
+                        <article class="upcoming-task-card">
+                            <span class="priority-badge priority-<%= task.priority %>">
+                                <%= task.priority %>
+                            </span>
+
+                            <h3><%= task.title %></h3>
+
+                            <p>
+                                <%= task.description || "No description provided." %>
+                            </p>
+
+                            <div class="upcoming-task-meta">
+                                <span>
+                                    <strong><%= task.estimatedMinutes %></strong>
+                                    minutes
+                                </span>
+
+                                <span>
+                                    <%= task.dueDate
+                                        ? new Date(task.dueDate).toLocaleDateString(
+                                            "en-US",
+                                            {
+                                                month: "short",
+                                                day: "numeric",
+                                                year: "numeric"
+                                            }
+                                          )
+                                        : "No deadline"
+                                    %>
+                                </span>
+                            </div>
+                        </article>
+                    <% }) %>
+                </div>
+            <% } %>
+        </section>
+    </div>
+</section>
+
+<%- include("partials/footer") %>

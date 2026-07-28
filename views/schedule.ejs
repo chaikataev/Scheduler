@@ -1,0 +1,70 @@
+<%- include("partials/header") %>
+
+<section class="schedule-view-section">
+    <div class="container">
+        <div class="page-heading">
+            <div>
+                <span class="eyebrow">Generated schedule</span>
+                <h1><%= schedule.title %></h1>
+
+                <p>
+                    Created
+                    <%= new Date(schedule.createdAt).toLocaleString("en-US") %>
+                </p>
+            </div>
+
+            <div class="schedule-heading-actions">
+                <a href="/schedules" class="button secondary-button">
+                    Saved Schedules
+                </a>
+
+                <a href="/schedules/generate" class="button">
+                    Generate Another
+                </a>
+            </div>
+        </div>
+
+        <div class="schedule-view-layout">
+            <article class="generated-schedule-card">
+                <div class="generated-schedule-header">
+                    <span class="ai-symbol">✦</span>
+
+                    <div>
+                        <span class="eyebrow">Gemini result</span>
+                        <h2>Your personalized plan</h2>
+                    </div>
+                </div>
+
+                <div class="schedule-content"><%= schedule.scheduleContent %></div>
+            </article>
+
+            <aside class="schedule-details-card">
+                <h2>Planning details</h2>
+
+                <div class="schedule-detail">
+                    <span>Availability</span>
+                    <p><%= schedule.availability %></p>
+                </div>
+
+                <div class="schedule-detail">
+                    <span>Preferences</span>
+                    <p>
+                        <%= schedule.preferences || "No additional preferences." %>
+                    </p>
+                </div>
+
+                <form
+                    action="/schedules/<%= schedule._id %>/delete"
+                    method="POST"
+                    onsubmit="return confirm('Delete this saved schedule?');"
+                >
+                    <button type="submit" class="delete-button full-button">
+                        Delete Schedule
+                    </button>
+                </form>
+            </aside>
+        </div>
+    </div>
+</section>
+
+<%- include("partials/footer") %>

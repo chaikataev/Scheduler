@@ -1,0 +1,55 @@
+<%- include("partials/header") %>
+
+<section class="auth-section">
+    <div class="auth-card">
+        <span class="eyebrow">Welcome back</span>
+
+        <h1>Sign in to Scheduler.</h1>
+
+        <p class="auth-description">
+            Access your saved tasks and schedules.
+        </p>
+
+        <% if (error) { %>
+            <div class="alert alert-error">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/signin" method="POST" class="auth-form">
+            <label>
+                Email
+
+                <input
+                    type="email"
+                    name="email"
+                    value="<%= email || '' %>"
+                    autocomplete="email"
+                    required
+                >
+            </label>
+
+            <label>
+                Password
+
+                <input
+                    type="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                >
+            </label>
+
+            <button type="submit" class="button full-button">
+                Sign In
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            Do not have an account?
+            <a href="/signup">Create one</a>
+        </p>
+    </div>
+</section>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,108 @@
+<%- include("partials/header") %>
+
+<section class="hero">
+    <div class="container hero-grid">
+        <div class="hero-content">
+            <span class="eyebrow">Smart scheduling</span>
+
+            <h1>
+                Build a better schedule without the stress.
+            </h1>
+
+            <p>
+                Add your own tasks, deadlines, and available time. Scheduler
+                uses Google Gemini to create a personalized plan that fits
+                your day.
+            </p>
+
+            <div class="hero-actions">
+                <% if (user) { %>
+                    <a href="/dashboard" class="button">
+                        Open Dashboard
+                    </a>
+
+                    <a href="/tasks" class="button secondary-button">
+                        View Tasks
+                    </a>
+                <% } else { %>
+                    <a href="/signup" class="button">
+                        Create Account
+                    </a>
+
+                    <a href="/signin" class="button secondary-button">
+                        Sign In
+                    </a>
+                <% } %>
+            </div>
+        </div>
+
+        <div class="preview-card empty-preview-card">
+            <span class="eyebrow">Your schedule</span>
+
+            <h2>Nothing scheduled yet</h2>
+
+            <p>
+                Add your own tasks, then use the AI Planner to generate a
+                schedule based on your availability and priorities.
+            </p>
+
+            <% if (user) { %>
+                <a href="/tasks" class="button">
+                    Add Your First Task
+                </a>
+            <% } else { %>
+                <a href="/signup" class="button">
+                    Get Started
+                </a>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<section class="features-section">
+    <div class="container">
+        <div class="section-heading">
+            <span class="eyebrow">How it works</span>
+
+            <h2>
+                Plan your time in three simple steps.
+            </h2>
+        </div>
+
+        <div class="feature-grid">
+            <article class="feature-card">
+                <span class="feature-number">01</span>
+
+                <h3>Add your tasks</h3>
+
+                <p>
+                    Enter deadlines, priorities, descriptions, and estimated
+                    completion times.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-number">02</span>
+
+                <h3>Enter your availability</h3>
+
+                <p>
+                    Tell Scheduler which days and times you are available.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-number">03</span>
+
+                <h3>Generate your plan</h3>
+
+                <p>
+                    Gemini creates a practical schedule that you can save and
+                    review later.
+                </p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<%- include("partials/footer") %>
