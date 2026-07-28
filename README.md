@@ -1,44 +1,52 @@
-# Scheduler
+Scheduler
 
-Scheduler is a full-stack web application that helps users organize tasks and generate schedules with Google Gemini.
+Scheduler is a full-stack web app that helps users manage tasks and create schedules.
 
-Users can create an account, sign in, add tasks, edit tasks, mark tasks as complete, and delete tasks. They can also enter their availability and have Gemini generate a schedule based on their pending tasks.
+Users can create an account, sign in, add tasks, edit tasks, mark tasks as complete, and delete tasks. The app also uses the Google Gemini API to create a schedule based on the user's pending tasks and availability.
 
-## Features
+Live App
+
+The project is hosted online.
+
+Deployed App:
+https://scheduler-69ee.onrender.com/
+
+GitHub Repository:
+https://github.com/chaikataev/Scheduler
+
+Features for web app
 
 - User signup and signin
 - Password hashing with bcrypt
 - Login sessions stored in MongoDB
-- Create, edit, complete, and delete tasks
-- Task priorities, deadlines, and estimated times
-- AI schedule generation with Gemini
+- Add, edit, complete, and delete tasks
+- Add due dates, priorities, and estimated times
+- Generate schedules with Google Gemini
 - Save and delete generated schedules
 - Responsive design
 
-## Technologies
+stuff used
 
 - Node.js
-- Express.js
+- Express
 - EJS
+- MongoDB Atlas
+- Mongoose
 - HTML
 - CSS
 - JavaScript
-- MongoDB Atlas
-- Mongoose
 - Google Gemini API
 
-## Database
+Database used
 
-The application uses MongoDB Atlas.
+The app uses MongoDB Atlas.
 
-### User
-
+User creation style
 - username
 - email
-- passwordHash
+- password
 
-### Task
-
+Task input
 - user
 - title
 - description
@@ -47,50 +55,15 @@ The application uses MongoDB Atlas.
 - estimatedMinutes
 - status
 
-### Schedule
-
+Schedule
 - user
 - title
 - availability
 - preferences
 - scheduleContent
 
-## How to Run
+API
 
-Install the dependencies:
+i used the Google Gemini API.
 
-```bash
-npm install
-
-
-Create a .env file in the main project folder:
-PORT=3000
-MONGODB_URI=your_mongodb_connection_string
-SESSION_SECRET=your_session_secret
-GEMINI_API_KEY=your_gemini_api_key
-NODE_ENV=development
-
-Start the server:
-npm run dev
-
-Open the app at:
-http://localhost:3000
-
-Main Pages:
-/ — Homepage
-/signup — Create an account
-/signin — Sign in
-/dashboard — User dashboard
-/tasks — Manage tasks
-/schedules/generate — Generate an AI schedule
-/schedules — View saved schedules
-
-API:
-This project uses the Google Gemini API to generate schedules.
-The server sends the user's pending tasks, availability, deadlines, priorities, and preferences to Gemini. The generated schedule is then saved in MongoDB.
-
-Security:
-Passwords are hashed before being saved. Login sessions are stored in MongoDB. API keys and database credentials are stored in the .env file and are not uploaded to GitHub.
-
-Author:
-Chai Kataev
+The server sends the user's pending tasks, deadlines, priorities, estimated times, availability, and preferences to Gemini. Gemini returns a schedule, and the schedule is saved in MongoDB.
